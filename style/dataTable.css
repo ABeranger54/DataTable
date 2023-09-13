@@ -1,0 +1,45 @@
+table{
+    border-spacing: 30px 0;
+}
+
+thead{
+    cursor: pointer;
+}
+
+.searchLabel{
+    display: inline-block;
+    margin-right: 5px;
+}
+
+label[for="entriesCount"], .formSelectRow_entriesCount{
+    display: inline-block;
+}
+
+#entriesCount{
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.dataTableTop, .dataTableBottom{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.dataTableBottom{
+    margin-top: 15px;
+}
+
+.tableNoElement{
+    text-align: center;
+}
+
+.pageNavigator{
+    display: flex;
+    gap: 35px;
+    margin-right: 13px;
+}
+
+.pageNavigator p{
+    cursor: pointer;
+}
