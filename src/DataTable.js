@@ -16,6 +16,9 @@ import FormRowSelect from "./FormRowSelect";
 */
 function DataTable(props) {
 
+    //Define all options values to fill FormRowSelect, which handle number of entries that a page can show
+    const entriesPerPageSelect = ["1", "2", "3", "4", "5", "6", "7", "8"];
+
     //State definitions
 
     //Column id from the table to be sorted
@@ -25,7 +28,7 @@ function DataTable(props) {
     //Search bar value
     const [searchValue, setSearchValue] = useState("");
     //Number of entries displayed per table page
-    const [entriesCountValue, setEntriesCountValue] = useState(3);
+    const [entriesCountValue, setEntriesCountValue] = useState(entriesPerPageSelect[0]);
     //Current table page to be displayed
     const [pageValue, setPageValue] = useState(0)
 
@@ -38,7 +41,8 @@ function DataTable(props) {
     //Retrieve in data all rows in which one or more columns contains search value
     const data = props.data.filter(row => {
         const included = props.columns.filter((c) => {
-            return row[c.data] && row[c.data].toLowerCase().includes(searchValue.toLowerCase());
+            const elem = (row[c.data] instanceof Date) ? row[c.data].toLocaleDateString('fr-FR') : row[c.data];
+            return elem && elem.toLowerCase().includes(searchValue.toLowerCase());
         })
         return included.length;
     })
@@ -50,8 +54,14 @@ function DataTable(props) {
     if(filterValue){
         data.sort((a, b) => {
             if(ascOrder){
+                if(a instanceof Date){
+                    return a.getTime() > b.getTime();
+                }
                 return a[filterValue] > b[filterValue];
             }else{
+                if(a instanceof Date){
+                    return a.getTime() < b.getTime();
+                }
                 return a[filterValue] < b[filterValue];
             }
         });
@@ -125,9 +135,6 @@ function DataTable(props) {
         setSearchValue(val);
         setPage(0);
     }
-
-    //Define all options values to fill FormRowSelect, which handle number of entries that a page can show
-    const entriesPerPageSelect = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
     return (
         <div className="dataTable">

@@ -1,6 +1,6 @@
 {
     "name": "@aberanger/data-table",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "description": "Table to dynamically display data",
     "main": "dist/index.js",
     "scripts": {

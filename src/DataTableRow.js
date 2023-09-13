@@ -8,7 +8,10 @@
 function DataTableRow(props) {
     
     //Array of <td>
-    const rowData = props.data.map((e, i) => <td key={"row-" + props.id + "-" + i}>{e}</td>)
+    const rowData = props.data.map(function(e, i){
+        const elem = (e instanceof Date) ? e.toLocaleDateString('fr-FR') : e;
+        return <td key={"row-" + props.id + "-" + i}>{elem}</td>
+    });
 
     return (
         <tr>

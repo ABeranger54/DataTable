@@ -29,6 +29,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; } /*
                                                                       * @props column: Array of objects, each object contains column name and column id
                                                                       */
 function DataTable(props) {
+  //Define all options values to fill FormRowSelect, which handle number of entries that a page can show
+  var entriesPerPageSelect = ["1", "2", "3", "4", "5", "6", "7", "8"];
+
   //State definitions
 
   //Column id from the table to be sorted
@@ -47,7 +50,7 @@ function DataTable(props) {
     searchValue = _useState6[0],
     setSearchValue = _useState6[1];
   //Number of entries displayed per table page
-  var _useState7 = (0, _react.useState)(3),
+  var _useState7 = (0, _react.useState)(entriesPerPageSelect[0]),
     _useState8 = _slicedToArray(_useState7, 2),
     entriesCountValue = _useState8[0],
     setEntriesCountValue = _useState8[1];
@@ -73,7 +76,8 @@ function DataTable(props) {
   //Retrieve in data all rows in which one or more columns contains search value
   var data = props.data.filter(function (row) {
     var included = props.columns.filter(function (c) {
-      return row[c.data] && row[c.data].toLowerCase().includes(searchValue.toLowerCase());
+      var elem = row[c.data] instanceof Date ? row[c.data].toLocaleDateString('fr-FR') : row[c.data];
+      return elem && elem.toLowerCase().includes(searchValue.toLowerCase());
     });
     return included.length;
   });
@@ -85,8 +89,14 @@ function DataTable(props) {
   if (filterValue) {
     data.sort(function (a, b) {
       if (ascOrder) {
+        if (a instanceof Date) {
+          return a.getTime() > b.getTime();
+        }
         return a[filterValue] > b[filterValue];
       } else {
+        if (a instanceof Date) {
+          return a.getTime() < b.getTime();
+        }
         return a[filterValue] < b[filterValue];
       }
     });
@@ -167,9 +177,6 @@ function DataTable(props) {
     setSearchValue(val);
     setPage(0);
   }
-
-  //Define all options values to fill FormRowSelect, which handle number of entries that a page can show
-  var entriesPerPageSelect = ["1", "2", "3", "4", "5", "6", "7", "8"];
   return /*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
     className: "dataTable",
     children: [/*#__PURE__*/(0, _jsxRuntime.jsxs)("div", {
